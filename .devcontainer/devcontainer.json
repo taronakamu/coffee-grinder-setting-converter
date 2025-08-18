@@ -1,0 +1,28 @@
+{
+  "name": "Coffee Grinder Setting Converter",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+  "remoteUser": "node",
+  "features": {},
+  "postCreateCommand": "bash -lc 'set -euo pipefail; corepack enable; corepack prepare pnpm@latest --activate; pnpm install --frozen-lockfile'",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite dev server",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "files.eol": "\n"
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "vitest.explorer"
+      ]
+    }
+  }
+}
