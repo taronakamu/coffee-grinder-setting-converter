@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Grinder } from '../lib/types'
+import { useI18n } from '../lib/i18n'
 
 interface Option {
   label: string
@@ -22,6 +23,7 @@ export function GrinderSelect({
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const listRef = useRef<HTMLUListElement>(null)
+  const { t } = useI18n()
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim()
@@ -52,7 +54,7 @@ export function GrinderSelect({
           aria-expanded={open}
           aria-controls={`${id}-list`}
           className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-black"
-          placeholder={selectedLabel || 'Search grinder...'}
+          placeholder={selectedLabel || t('searchPlaceholder')}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -69,7 +71,7 @@ export function GrinderSelect({
           >
             {filtered.length === 0 && (
               <li className="px-3 py-2 text-gray-500" aria-disabled>
-                No results
+                {t('noResults')}
               </li>
             )}
             {filtered.map((o) => (

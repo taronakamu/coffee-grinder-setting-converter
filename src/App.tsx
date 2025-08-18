@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { I18nProvider, useI18n } from './lib/i18n'
+import ReactFlagsSelect from 'react-flags-select'
 import GrinderSelect from './components/GrinderSelect'
 import { loadGrinder, loadManifest } from './lib/data'
 import { convertBetweenGrinders } from './lib/interpolate'
@@ -21,7 +23,8 @@ function useManifestOptions() {
   return { options, error }
 }
 
-export default function App() {
+function AppInner() {
+  const { t, locale, setLocale } = useI18n()
   const { options, error: manifestError } = useManifestOptions()
   const [fromFile, setFromFile] = useState<string | null>(null)
   const [toFile, setToFile] = useState<string | null>(null)
@@ -42,7 +45,7 @@ export default function App() {
   const parsed = useMemo(() => {
     if (!fromGrinder) return { n: null as number | null, err: null as string | null }
     const n = parseInput(fromSettingText, fromGrinder.setting_format)
-    if (n === null) return { n, err: fromSettingText ? 'Invalid value' : null }
+  if (n === null) return { n, err: fromSettingText ? t('invalidValue') : null }
     const vr = validateRangeAndStep(n, fromGrinder)
     if (!vr.ok) return { n, err: vr.message ?? 'Invalid value' }
     return { n, err: null }
@@ -58,30 +61,44 @@ export default function App() {
   return (
     <div className="min-h-screen text-gray-900">
       <header className="bg-white shadow">
-        <div className="mx-auto max-w-4xl px-4 py-6">
-          <h1 className="text-2xl font-semibold">Coffee Grinder Setting Converter</h1>
-          <p className="text-sm text-gray-600 mt-1">
-            This tool matches median particle size (µm). Results are approximations.
-          </p>
+        <div className="mx-auto max-w-4xl px-4 py-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-semibold">{t('title')}</h1>
+            <p className="text-sm text-gray-600 mt-1">{t('subtitle')}</p>
+          </div>
+          <div className="flex items-center" aria-label="Language picker">
+            <label htmlFor="lang-flags" className="sr-only">Language</label>
+            <ReactFlagsSelect
+              id="lang-flags"
+              countries={["US", "JP"]}
+              customLabels={{ US: '', JP: '' }}
+              selected={locale === 'ja' ? 'JP' : 'US'}
+              onSelect={(code) => setLocale(code === 'JP' ? 'ja' : 'en')}
+              showSelectedLabel={false}
+              showOptionLabel={false}
+              selectedSize={18}
+              optionsSize={16}
+            />
+          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-4xl p-4 space-y-6">
         {manifestError && (
           <div role="alert" className="rounded border border-red-300 bg-red-50 p-3 text-red-800">
-            Failed to load manifest: {manifestError}
+            {t('failedManifest', { error: manifestError })}
           </div>
         )}
 
         <section className="grid gap-4 md:grid-cols-2">
-          <GrinderSelect id="from-grinder" label="From grinder" options={options} value={fromFile} onChange={setFromFile} />
-          <GrinderSelect id="to-grinder" label="To grinder" options={options} value={toFile} onChange={setToFile} />
+          <GrinderSelect id="from-grinder" label={t('fromGrinder')} options={options} value={fromFile} onChange={setFromFile} />
+          <GrinderSelect id="to-grinder" label={t('toGrinder')} options={options} value={toFile} onChange={setToFile} />
         </section>
 
         <section className="grid gap-4 md:grid-cols-2 items-end">
           <div>
             <label htmlFor="from-setting" className="block text-sm font-medium text-gray-700 mb-1">
-              From setting
+              {t('fromSetting')}
             </label>
             <input
               id="from-setting"
@@ -102,17 +119,17 @@ export default function App() {
         </section>
 
         <section className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Result</h2>
-          {!result && <p className="text-gray-600">Select grinders and enter a valid source setting.</p>}
+          <h2 className="text-lg font-semibold mb-2">{t('resultTitle')}</h2>
+          {!result && <p className="text-gray-600">{t('enterPrompt')}</p>}
           {result && toGrinder && (
             <div className="space-y-2">
               <p className="text-xl">
-                To setting ≈ <span className="font-semibold">{result.rounded}</span>
+                {t('toSettingApprox')} <span className="font-semibold">{result.rounded}</span>
               </p>
-              <p className="text-sm text-gray-600">~ {result.micrometer.toFixed(1)} µm (median match)</p>
+              <p className="text-sm text-gray-600">{t('medianMatch', { um: result.micrometer.toFixed(1) })}</p>
               {result.clamped && (
                 <p role="alert" className="text-sm text-amber-700">
-                  Warning: result outside target range, clamped to nearest setting.
+                  {t('warningClamped')}
                 </p>
               )}
             </div>
@@ -124,16 +141,18 @@ export default function App() {
           aria-labelledby="disclaimer-title"
           className="mt-8 rounded-md border border-gray-300 bg-gray-50 p-4 text-gray-800"
         >
-          <h2 id="disclaimer-title" className="text-base font-semibold mb-2">Disclaimer</h2>
-          <p className="text-sm leading-relaxed">
-            This tool provides approximate conversions between grinders based on the median particle size (µm). Coffee
-            flavor depends heavily on the full grind size distribution, not just the median value. Results can vary due
-            to grinder design, manufacturing tolerances, and burr wear over time. Therefore, the output should be
-            treated only as a reference to help achieve comparable brews — it cannot guarantee identical flavor
-            profiles.
-          </p>
+          <h2 id="disclaimer-title" className="text-base font-semibold mb-2">{t('disclaimerTitle')}</h2>
+          <p className="text-sm leading-relaxed">{t('disclaimerText')}</p>
         </section>
       </main>
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <I18nProvider>
+      <AppInner />
+    </I18nProvider>
   )
 }
