@@ -1,0 +1,28 @@
+{
+  "grinder_id": "varia-vs3-gen2",
+  "display_name": "(Experimental) Varia VS3 (Gen 2)",
+  "setting_type": "dial",
+  "setting_format": "decimal",
+  "setting_constraints": { "min": 0, "max": 18, "step": 0.1 },
+  "mapping": {
+    "0": 170,
+    "1": 231,
+    "2": 292,
+    "3": 354,
+    "4": 415,
+    "5": 476,
+    "6": 537,
+    "7": 598,
+    "8": 660,
+    "9": 721,
+    "10": 782,
+    "11": 843,
+    "12": 904,
+    "13": 966,
+    "14": 1027,
+    "15": 1088,
+    "16": 1149,
+    "17": 1210,
+    "18": 1271
+  }
+}
