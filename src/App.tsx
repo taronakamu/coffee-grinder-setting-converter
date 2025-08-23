@@ -101,11 +101,29 @@ function AppInner() {
             <label htmlFor="from-setting" className="block text-sm font-medium text-gray-700 mb-1">
               {t('fromSetting')}
             </label>
+            {/* Placeholder reflects step granularity (e.g., 0.0 – 16.0 for step 0.1) */}
             <input
               id="from-setting"
               inputMode="decimal"
               className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder={fromGrinder ? `${fromGrinder.setting_constraints.min} – ${fromGrinder.setting_constraints.max}` : ''}
+              placeholder={(() => {
+                if (!fromGrinder) return ''
+                const { min, max, step } = fromGrinder.setting_constraints
+                // Count decimals in step to decide formatting (supports scientific notation)
+                const countDecimals = (n: number) => {
+                  if (Number.isInteger(n)) return 0
+                  const s = n.toString().toLowerCase()
+                  if (s.includes('e-')) {
+                    const parts = s.split('e-')
+                    const exp = parseInt(parts[1] || '0', 10)
+                    return exp
+                  }
+                  return (s.split('.')[1] || '').length
+                }
+                const decimals = countDecimals(step)
+                const fmt = (v: number) => decimals > 0 ? v.toFixed(decimals) : String(v)
+                return `${fmt(min)} – ${fmt(max)}`
+              })()}
               value={fromSettingText}
               onChange={(e) => setFromSettingText(e.target.value)}
               aria-invalid={!!parsed.err}
