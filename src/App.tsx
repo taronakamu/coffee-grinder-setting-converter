@@ -5,6 +5,7 @@ import GrinderSelect from './components/GrinderSelect'
 import { loadGrinder, loadManifest } from './lib/data'
 import { convertBetweenGrinders } from './lib/interpolate'
 import { parseInput, roundToStep, validateRangeAndStep } from './lib/validation'
+import { grindCategoryLabel } from './lib/grindCategory'
 import type { Grinder } from './lib/types'
 
 interface Option { label: string; value: string }
@@ -126,7 +127,12 @@ function AppInner() {
               <p className="text-xl">
                 {t('toSettingApprox')} <span className="font-semibold">{result.rounded}</span>
               </p>
-              <p className="text-sm text-gray-600">{t('medianMatch', { um: result.micrometer.toFixed(1) })}</p>
+              <p className="text-sm text-gray-600">
+                {t('medianMatch', {
+                  um: result.micrometer.toFixed(1),
+                  grindCategory: grindCategoryLabel(t, result.micrometer),
+                })}
+              </p>
               {result.clamped && (
                 <p role="alert" className="text-sm text-amber-700">
                   {t('warningClamped')}
