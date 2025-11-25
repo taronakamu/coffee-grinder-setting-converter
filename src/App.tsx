@@ -7,6 +7,7 @@ import { convertBetweenGrinders } from './lib/interpolate'
 import { parseInput, roundToStep, validateRangeAndStep } from './lib/validation'
 import { grindCategoryLabel } from './lib/grindCategory'
 import type { Grinder } from './lib/types'
+import { ThemeToggle } from './components/ThemeToggle'
 
 interface Option { label: string; value: string }
 
@@ -67,19 +68,22 @@ function AppInner() {
             <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">{t('title')}</h1>
             <p className="text-sm text-gray-600 mt-1 dark:text-neutral-400">{t('subtitle')}</p>
           </div>
-          <div className="flex items-center" aria-label="Language picker">
-            <label htmlFor="lang-flags" className="sr-only">Language</label>
-            <ReactFlagsSelect
-              id="lang-flags"
-              countries={["US", "JP"]}
-              customLabels={{ US: '', JP: '' }}
-              selected={locale === 'ja' ? 'JP' : 'US'}
-              onSelect={(code) => setLocale(code === 'JP' ? 'ja' : 'en')}
-              showSelectedLabel={false}
-              showOptionLabel={false}
-              selectedSize={18}
-              optionsSize={16}
-            />
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <div className="flex items-center" aria-label="Language picker">
+              <label htmlFor="lang-flags" className="sr-only">Language</label>
+              <ReactFlagsSelect
+                id="lang-flags"
+                countries={["US", "JP"]}
+                customLabels={{ US: '', JP: '' }}
+                selected={locale === 'ja' ? 'JP' : 'US'}
+                onSelect={(code) => setLocale(code === 'JP' ? 'ja' : 'en')}
+                showSelectedLabel={false}
+                showOptionLabel={false}
+                selectedSize={18}
+                optionsSize={16}
+              />
+            </div>
           </div>
         </div>
       </header>
