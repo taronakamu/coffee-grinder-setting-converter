@@ -44,7 +44,7 @@ export function GrinderSelect({
 
   return (
     <div className="w-full">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+      <label htmlFor={id} className="block text-sm font-medium mb-2 dark:text-white">
         {label}
       </label>
       <div className="relative">
@@ -53,7 +53,7 @@ export function GrinderSelect({
           role="combobox"
           aria-expanded={open}
           aria-controls={`${id}-list`}
-          className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-black"
+          className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
           placeholder={selectedLabel || t('searchPlaceholder')}
           value={query}
           onChange={(e) => {
@@ -67,10 +67,10 @@ export function GrinderSelect({
             id={`${id}-list`}
             role="listbox"
             ref={listRef}
-            className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            className="absolute z-50 mt-2 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900 dark:border-neutral-700 shadow-lg"
           >
             {filtered.length === 0 && (
-              <li className="px-3 py-2 text-gray-500" aria-disabled>
+              <li className="py-2 px-4 w-full text-sm text-gray-500 dark:text-neutral-500" aria-disabled>
                 {t('noResults')}
               </li>
             )}
@@ -80,7 +80,9 @@ export function GrinderSelect({
                 role="option"
                 aria-selected={o.value === value}
                 tabIndex={0}
-                className="cursor-pointer px-3 py-2 hover:bg-blue-50 focus:bg-blue-50 text-black"
+                className={`py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800 ${
+                  o.value === value ? 'bg-gray-100 dark:bg-neutral-800' : ''
+                }`}
                 onClick={() => {
                   onChange(o.value)
                   setQuery('')

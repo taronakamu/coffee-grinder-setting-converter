@@ -60,12 +60,12 @@ function AppInner() {
   }, [fromGrinder, toGrinder, parsed])
 
   return (
-    <div className="min-h-screen text-gray-900">
-      <header className="bg-white shadow">
+    <div className="min-h-screen text-gray-900 dark:text-white dark:bg-neutral-900">
+      <header className="bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700">
         <div className="mx-auto max-w-4xl px-4 py-6 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold">{t('title')}</h1>
-            <p className="text-sm text-gray-600 mt-1">{t('subtitle')}</p>
+            <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">{t('title')}</h1>
+            <p className="text-sm text-gray-600 mt-1 dark:text-neutral-400">{t('subtitle')}</p>
           </div>
           <div className="flex items-center" aria-label="Language picker">
             <label htmlFor="lang-flags" className="sr-only">Language</label>
@@ -86,7 +86,7 @@ function AppInner() {
 
       <main className="mx-auto max-w-4xl p-4 space-y-6">
         {manifestError && (
-          <div role="alert" className="rounded border border-red-300 bg-red-50 p-3 text-red-800">
+          <div role="alert" className="bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500">
             {t('failedManifest', { error: manifestError })}
           </div>
         )}
@@ -98,14 +98,14 @@ function AppInner() {
 
         <section className="grid gap-4 md:grid-cols-2 items-end">
           <div>
-            <label htmlFor="from-setting" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="from-setting" className="block text-sm font-medium mb-2 dark:text-white">
               {t('fromSetting')}
             </label>
             {/* Placeholder reflects step granularity (e.g., 0.0 – 16.0 for step 0.1) */}
             <input
               id="from-setting"
               inputMode="decimal"
-              className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
               placeholder={(() => {
                 if (!fromGrinder) return ''
                 const { min, max, step } = fromGrinder.setting_constraints
@@ -130,7 +130,7 @@ function AppInner() {
               aria-describedby="from-setting-error"
             />
             {parsed.err && (
-              <p id="from-setting-error" role="alert" className="mt-1 text-sm text-red-700">
+              <p id="from-setting-error" role="alert" className="mt-2 text-sm text-red-600 dark:text-red-500">
                 {parsed.err}
               </p>
             )}
@@ -138,21 +138,21 @@ function AppInner() {
         </section>
 
         <section className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">{t('resultTitle')}</h2>
-          {!result && <p className="text-gray-600">{t('enterPrompt')}</p>}
+          <h2 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{t('resultTitle')}</h2>
+          {!result && <p className="text-gray-600 dark:text-neutral-400">{t('enterPrompt')}</p>}
           {result && toGrinder && (
             <div className="space-y-2">
-              <p className="text-xl">
+              <p className="text-xl text-gray-800 dark:text-gray-200">
                 {t('toSettingApprox')} <span className="font-semibold">{result.rounded}</span>
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-neutral-400">
                 {t('medianMatch', {
                   um: result.micrometer.toFixed(1),
                   grindCategory: grindCategoryLabel(t, result.micrometer),
                 })}
               </p>
               {result.clamped && (
-                <p role="alert" className="text-sm text-amber-700">
+                <p role="alert" className="text-sm text-amber-700 dark:text-amber-500">
                   {t('warningClamped')}
                 </p>
               )}
@@ -163,10 +163,10 @@ function AppInner() {
         <section
           role="note"
           aria-labelledby="disclaimer-title"
-          className="mt-8 rounded-md border border-gray-300 bg-gray-50 p-4 text-gray-800"
+          className="mt-8 flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70"
         >
-          <h2 id="disclaimer-title" className="text-base font-semibold mb-2">{t('disclaimerTitle')}</h2>
-          <p className="text-sm leading-relaxed">{t('disclaimerText')}</p>
+          <h2 id="disclaimer-title" className="text-base font-semibold mb-2 text-gray-800 dark:text-white">{t('disclaimerTitle')}</h2>
+          <p className="text-sm leading-relaxed text-gray-500 dark:text-neutral-400">{t('disclaimerText')}</p>
         </section>
       </main>
     </div>
