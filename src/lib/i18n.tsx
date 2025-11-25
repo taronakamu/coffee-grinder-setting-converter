@@ -34,6 +34,13 @@ const messages: Record<Locale, Messages> = {
       'This tool provides approximate conversions between grinders based on the median particle size (µm). Coffee flavor depends heavily on the full grind size distribution, not just the median value. Results can vary due to grinder design, manufacturing tolerances, and burr wear over time. Therefore, the output should be treated only as a reference to help achieve comparable brews — it cannot guarantee identical flavor profiles.',
     langEnglish: 'English (US)',
     langJapanese: 'Japanese',
+    tabConverter: 'Converter',
+    tabTable: 'Table',
+    tabRange: 'Range',
+    enterMicrons: 'Enter particle size (µm)',
+    grinderName: 'Grinder Name',
+    setting: 'Setting',
+    loading: 'Loading...',
   },
   ja: {
     title: 'Coffee Grinder Setting Converter',
@@ -64,6 +71,13 @@ const messages: Record<Locale, Messages> = {
       'このツールは中央値（µm）に基づいてグラインダー間の概算変換を提供します。コーヒーの風味は中央値だけでなく粒度分布全体に強く依存します。グラインダーの設計、公差、刃の摩耗、経年劣化などにより結果は変動します。そのため、本ツールの出力は同等の抽出を目指すための参考値に留まり、同一の風味を保証するものではありません。',
     langEnglish: '英語 (米国)',
     langJapanese: '日本語',
+    tabConverter: 'コンバーター',
+    tabTable: '一覧表',
+    tabRange: 'レンジ',
+    enterMicrons: '粒度 (µm) を入力',
+    grinderName: 'グラインダー名',
+    setting: '設定値',
+    loading: '読み込み中...',
   },
 }
 

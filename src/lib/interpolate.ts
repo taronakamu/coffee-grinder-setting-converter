@@ -54,6 +54,12 @@ export function invLerp(pairs: Array<[number, number]>, y: number): { x: number;
   return { x: xs[xs.length - 1], clamped: true }
 }
 
+export function convertMicronsToSetting(to: Grinder, micrometer: number): { setting: number; clamped: boolean } {
+  const toPairs = sortPairs(to.mapping)
+  const inv = invLerp(toPairs, micrometer)
+  return { setting: inv.x, clamped: inv.clamped }
+}
+
 export function convertBetweenGrinders(from: Grinder, to: Grinder, fromSetting: number): InterpResult & { warning?: string } {
   // 1. From setting -> µm using mapping {setting -> µm}
   let micrometer: number
