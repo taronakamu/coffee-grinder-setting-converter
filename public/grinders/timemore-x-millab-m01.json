@@ -1,20 +1,21 @@
 {
   "grinder_id": "timemore-x-millab-m01",
-  "display_name": "(Experimental) Timemore X Millab M01",
+  "display_name": "Timemore X Millab M01",
   "setting_type": "clicks",
   "setting_format": "decimal",
   "setting_constraints": { "min": 0, "max": 10, "step": 0.1 },
   "mapping": {
-    "0": 130,
-    "1": 257,
-    "2": 384,
-    "3": 511,
-    "4": 638,
-    "5": 765,
-    "6": 892,
-    "7": 1019,
-    "8": 1146,
-    "9": 1273,
-    "10": 1400
+    "0": 620,
+    "1": 660,
+    "2": 700,
+    "3": 740,
+    "4": 780,
+    "5": 820,
+    "6": 860,
+    "7": 900,
+    "8": 940,
+    "9": 980,
+    "10": 1020
  }
+
 }
